@@ -11,6 +11,60 @@ export default function Home() {
     console.log("オブジェクト", object);
   };
 
+  const songs = [
+    {
+      "title": "G線上のアリア",
+      "author": "ヨハン・セバスチャン・バッハ",
+      "isCasual": false
+    },
+    {
+      "title": "夜想曲第2番",
+      "author": "フレデリック・ショパン",
+      "isCasual": false
+    },
+    {
+      "title": "交響曲第9番『合唱』",
+      "author": "ルートヴィヒ・ヴァン・ベートーヴェン",
+      "isCasual": false
+    },
+    {
+      "title": "ピアノ協奏曲第2番",
+      "author": "セルゲイ・ラフマニノフ",
+      "isCasual": false
+    },
+    {
+      "title": "ブルグミュラーによる25の練習曲",
+      "author": "ヨハン・フリードリヒ・ブルグミュラー",
+      "isCasual": false
+    },
+    {
+      "title": "Stand by Me",
+      "author": "ベン・E・キング",
+      "isCasual": true
+    },
+    {
+      "title": "Let it Be",
+      "author": "ビートルズ",
+      "isCasual": true
+    },
+    {
+      "title": "Don't Stop Believin'",
+      "author": "ジャーニー",
+      "isCasual": true
+    },
+    {
+      "title": "L-O-V-E",
+      "author": "ナット・キング・コール",
+      "isCasual": true
+    },
+    {
+      "title": "What a Wonderful World",
+      "author": "ルイ・アームストロング",
+      "isCasual": true
+    }
+  ];
+  
+
   return (
     <>
       <Head>
