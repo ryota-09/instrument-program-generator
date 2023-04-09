@@ -30,7 +30,7 @@ export default function Top() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Topページ</h1>
+        <h1 className="text-red-500">Topページ</h1>
         <button onClick={generate}>generateボタン</button>
         {songs.length > 0 &&
           songs.map((song, index) => (
