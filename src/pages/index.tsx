@@ -1,8 +1,12 @@
 import Head from "next/head";
 
 import axios from "axios";
+import { useState } from "react";
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [targetVideoId, setTargetVideoId] = useState("");
+
   const generate = async () => {
     const data = await axios.get("/api/generate");
     console.log(data.data);
@@ -11,59 +15,70 @@ export default function Home() {
     console.log("オブジェクト", object);
   };
 
+  const fetchVideo = async (keyWord: string) => {
+    const data = await axios.get(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${keyWord}&type=video&key=${process.env.NEXT_PUBLIC_YOUTUBE_KEY}`
+    );
+    return data.data.items[0].id.videoId;
+  };
+
+  const handleAccordionClick = async (keyWord: string) => {
+    setIsOpen(!isOpen);
+    const targetId = await fetchVideo(keyWord);
+    setTargetVideoId(targetId);
+  };
   const songs = [
     {
-      "title": "G線上のアリア",
-      "author": "ヨハン・セバスチャン・バッハ",
-      "isCasual": false
+      title: "G線上のアリア",
+      author: "ヨハン・セバスチャン・バッハ",
+      isCasual: false,
     },
     {
-      "title": "夜想曲第2番",
-      "author": "フレデリック・ショパン",
-      "isCasual": false
+      title: "夜想曲第2番",
+      author: "フレデリック・ショパン",
+      isCasual: false,
     },
     {
-      "title": "交響曲第9番『合唱』",
-      "author": "ルートヴィヒ・ヴァン・ベートーヴェン",
-      "isCasual": false
+      title: "交響曲第9番『合唱』",
+      author: "ルートヴィヒ・ヴァン・ベートーヴェン",
+      isCasual: false,
     },
     {
-      "title": "ピアノ協奏曲第2番",
-      "author": "セルゲイ・ラフマニノフ",
-      "isCasual": false
+      title: "ピアノ協奏曲第2番",
+      author: "セルゲイ・ラフマニノフ",
+      isCasual: false,
     },
     {
-      "title": "ブルグミュラーによる25の練習曲",
-      "author": "ヨハン・フリードリヒ・ブルグミュラー",
-      "isCasual": false
+      title: "ブルグミュラーによる25の練習曲",
+      author: "ヨハン・フリードリヒ・ブルグミュラー",
+      isCasual: false,
     },
     {
-      "title": "Stand by Me",
-      "author": "ベン・E・キング",
-      "isCasual": true
+      title: "Stand by Me",
+      author: "ベン・E・キング",
+      isCasual: true,
     },
     {
-      "title": "Let it Be",
-      "author": "ビートルズ",
-      "isCasual": true
+      title: "Let it Be",
+      author: "ビートルズ",
+      isCasual: true,
     },
     {
-      "title": "Don't Stop Believin'",
-      "author": "ジャーニー",
-      "isCasual": true
+      title: "Don't Stop Believin'",
+      author: "ジャーニー",
+      isCasual: true,
     },
     {
-      "title": "L-O-V-E",
-      "author": "ナット・キング・コール",
-      "isCasual": true
+      title: "L-O-V-E",
+      author: "ナット・キング・コール",
+      isCasual: true,
     },
     {
-      "title": "What a Wonderful World",
-      "author": "ルイ・アームストロング",
-      "isCasual": true
-    }
+      title: "What a Wonderful World",
+      author: "ルイ・アームストロング",
+      isCasual: true,
+    },
   ];
-  
 
   return (
     <>
@@ -73,9 +88,72 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1 className="text-3xl font-bold">タイトル</h1>
+      <header className="bg-blue-500 text-white py-4 px-6">
+        <h1 className="text-lg font-bold">Smartphone Layout</h1>
+      </header>
+      <main className="py-6 px-4">
+        <h2 className="text-xl font-semibold mb-4">
+          Welcome to the Smartphone Layout!
+        </h2>
+        <p className="mb-4">
+          This layout is built with Next.js and Tailwind CSS.
+        </p>
+        <div className="flex space-x-4">
+          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+            Button 1
+          </button>
+          <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+            Button 2
+          </button>
+        </div>
+        <div className="w-full max-w-md mx-auto">
+          <div className="bg-white shadow-lg">
+            <button
+              className={
+                "w-full px-6 py-4 font-bold text-left text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center justify-between"
+              }
+              onClick={() =>
+                handleAccordionClick(
+                  "G線上のアリア ヨハン・セバスチャン・バッハ"
+                )
+              }
+            >
+              Accordion Title
+              <svg
+                className={`w-6 h-6 text-blue-500 transition-transform duration-200 ${
+                  isOpen ? "transform rotate-180" : ""
+                }`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+              </svg>
+            </button>
+            <div
+              className={`px-6 overflow-hidden transition-max-height duration-500 ease-in-out ${
+                isOpen ? "max-h-96" : "max-h-0"
+              }`}
+            >
+              <h3 className="mt-6 text-lg font-semibold mb-4">Iframe Title</h3>
+              <div className="mb-6 bg-white shadow-lg overflow-hidden">
+                <iframe
+                  src={`https://www.youtube.com/embed/${targetVideoId}`}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
+
+      <footer className="bg-blue-500 text-white py-4 px-6 mt-auto">
+        <p className="text-sm">
+          &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+        </p>
+      </footer>
     </>
   );
 }
