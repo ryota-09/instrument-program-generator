@@ -2,10 +2,20 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import axios from 'axios'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const generate = async () => {
+    const data = await axios.get("/api/generate")
+    console.log(data.data)
+    console.log("type", typeof data.data)
+    const object = JSON.parse(data.data)
+    console.log("オブジェクト", object)
+  }
+
   return (
     <>
       <Head>
@@ -57,6 +67,7 @@ export default function Home() {
               priority
             />
           </div>
+          <button onClick={generate}>generateボタン</button>
         </div>
 
         <div className={styles.grid}>
