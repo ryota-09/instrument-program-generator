@@ -15,7 +15,6 @@ const Accordion: FC<Props> = ({ title, author, isCasual }) => {
     const data = await axios.get(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${keyWord}&type=video&key=${process.env.NEXT_PUBLIC_YOUTUBE_KEY}`
     );
-    console.log(data.data.items[0].id.videoId);
     return data.data.items[0].id.videoId;
   };
 
@@ -58,7 +57,9 @@ const Accordion: FC<Props> = ({ title, author, isCasual }) => {
         <p className="my-3">author: {author}</p>
         <div className="my-4">
           {isCasual ? (
-            <span className="p-2 bg-blue-300 rounded-md text-gray-600">casual</span>
+            <span className="p-2 bg-blue-300 rounded-md text-gray-600">
+              casual
+            </span>
           ) : (
             <span className="p-2 bg-gray-300 rounded-md text-gray-600">
               clacis

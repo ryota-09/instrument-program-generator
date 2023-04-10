@@ -4,13 +4,22 @@ import Head from "next/head";
 
 import { useState } from "react";
 
+type SongType = {
+  title: string;
+  author: string;
+  isCasual: boolean;
+};
+
 export default function Home() {
-  const generate = async () => {
-    const data = await axios.get("/api/generate");
+  const [option, setOption] = useState("");
+  const [songList, setSongList] = useState<SongType[]>([])
+  const generateList = async () => {
+    const data = await axios.get(`/api/generate?option=${option}`);
     console.log(data.data);
     console.log("type", typeof data.data);
     const object = JSON.parse(data.data);
-    console.log("オブジェクト", object);
+    console.log("songList", object.songList);
+    setSongList([...object.songList])
   };
 
   const songs = [
@@ -85,7 +94,10 @@ export default function Home() {
           This layout is built with Next.js and Tailwind CSS.
         </p>
         <div className="w-full max-w-md mx-auto flex justify-center gap-4">
-          <button className="border-2 border-blue-300 text-gray-500 font-bold py-2 px-4 rounded-full w-16 h-16 flex items-center justify-center shadow-md hover:shadow-lg transition duration-200 ease-in-out">
+          <button
+            onClick={async () => await generateList()}
+            className="border-2 border-blue-300 text-gray-500 font-bold py-2 px-4 rounded-full w-16 h-16 flex items-center justify-center shadow-md hover:shadow-lg transition duration-200 ease-in-out"
+          >
             flute
           </button>
           <button className="border-2 border-blue-300 text-gray-500 font-bold py-2 px-4 rounded-full w-16 h-16 flex items-center justify-center shadow-md hover:shadow-lg transition duration-200 ease-in-out">
@@ -96,12 +108,19 @@ export default function Home() {
           </button>
         </div>
         <div>
-          <p>Clacic and Casual</p>
+          <input
+            type="text"
+            onChange={(event) => setOption(event.target.value)}
+          />
         </div>
-        {songs &&
-          songs.map((song, index) => (
+        {songList &&
+          songList.map((song, index) => (
             <div key={index} className="w-full max-w-md mx-auto">
-              <Accordion title={song.title} author={song.author} isCasual={song.isCasual} />
+              <Accordion
+                title={song.title}
+                author={song.author}
+                isCasual={song.isCasual}
+              />
             </div>
           ))}
       </main>
