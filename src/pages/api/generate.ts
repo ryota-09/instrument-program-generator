@@ -41,7 +41,7 @@ export default async function handler(
         role: "assistant",
         content: `Think of 10 ${
           req.query.instrument
-        } programs, 5 clacical and 5 casual Japanese. ${
+        } programs, 5 classic and 5 casual Japanese. ${
           hasOption ? data.data.translations[0].text : ""
         } The title of the song is the tilt key, the author of the song is the author key, whether the song is casual or not is in boolean format with the key name of isCasual, top level key is songList and finally the 10 song objects are arranged in json format.`,
       },

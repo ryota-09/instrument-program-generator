@@ -62,7 +62,7 @@ const Accordion: FC<Props> = ({ title, author, isCasual }) => {
             </span>
           ) : (
             <span className="p-2 bg-gray-300 rounded-md text-gray-600">
-              clacis
+              classic
             </span>
           )}
         </div>

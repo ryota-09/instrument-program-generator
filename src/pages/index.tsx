@@ -24,20 +24,20 @@ export default function Home() {
   const [songList, setSongList] = useState<SongType[]>([]);
 
   const [loading, setLoading] = useState(false);
-
-  const handleButtonClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  };
+  const [isRegenerate, setIsRegenerate] = useState(false);
 
   const generateList = async () => {
+    setSongList([]);
+    setLoading(true);
     const data = await axios.get(
       `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
     );
     const object = JSON.parse(data.data);
     setSongList([...object.songList]);
+    setLoading(false);
+    if (!isRegenerate) {
+      setIsRegenerate(true);
+    }
   };
 
   return (
@@ -51,7 +51,7 @@ export default function Home() {
       <header className="bg-blue-500 text-white py-4 px-6">
         <h1 className="text-lg font-bold">Program Generator</h1>
       </header>
-      <main className="py-6 px-4">
+      <main className="py-6 px-4 min-h-screen">
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Instrument
         </label>
@@ -104,22 +104,30 @@ export default function Home() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="option"
             type="text"
-            placeholder="例: 皆によく知られた曲を選ぶ。"
+            placeholder="例: みんなが楽しめる曲を選んで欲しい。"
             onChange={(event) =>
               setRequestData({ ...requestData, option: event.target.value })
             }
           />
         </div>
         <div className="flex justify-center my-4">
-          <button
-            onClick={async () => await generateList()}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Generate Program !
-          </button>
+          {isRegenerate ? (
+            <button
+              onClick={async () => await generateList()}
+              className="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              もう一度作成する！
+            </button>
+          ) : (
+            <button
+              onClick={async () => await generateList()}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Generate Program !
+            </button>
+          )}
         </div>
         <div>
-          <button onClick={handleButtonClick}>ボタン</button>
           <LoadingOverlay loading={loading} src="/study_night_girl.png" />
         </div>
         {songList &&
