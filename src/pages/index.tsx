@@ -25,18 +25,34 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false);
   const [isRegenerate, setIsRegenerate] = useState(false);
+  const [error, setError] = useState(false);
 
   const generateList = async () => {
     setSongList([]);
     setLoading(true);
-    const data = await axios.get(
-      `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
-    );
-    const object = JSON.parse(data.data);
-    setSongList([...object.songList]);
-    setLoading(false);
-    if (!isRegenerate) {
-      setIsRegenerate(true);
+    setError(false);
+    try {
+      const data = await axios.get(
+        `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
+      );
+      const object = JSON.parse(data.data);
+      setSongList([...object.songList]);
+    } catch {
+      try {
+        console.log("エラーが発生し、もう一度フェッチ")
+        const data = await axios.get(
+          `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
+        );
+        const object = JSON.parse(data.data);
+        setSongList([...object.songList]);
+      } catch {
+        setError(true);
+      }
+    } finally {
+      setLoading(false);
+      if (!isRegenerate) {
+        setIsRegenerate(true);
+      }
     }
   };
 
@@ -136,6 +152,7 @@ export default function Home() {
         <div>
           <LoadingOverlay loading={loading} src="/study_night_girl.png" />
         </div>
+        {error && <p className="w-full mx-auto">エラーが発生しました</p>}
         {songList &&
           songList.map((song, index) => (
             <div key={index} className="w-full max-w-md mx-auto">
