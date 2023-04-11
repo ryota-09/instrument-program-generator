@@ -47,5 +47,9 @@ export default async function handler(
       },
     ],
   });
-  res.status(200).json(normalize(completion.data.choices[0].message.content));
+  if (!completion.data.choices[0].message) {
+    res.status(500).json([]);
+  } else {
+    res.status(200).json(normalize(completion.data.choices[0].message?.content));
+  }
 }
