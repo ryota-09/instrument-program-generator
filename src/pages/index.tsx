@@ -1,4 +1,5 @@
 import Accordion from "@/components/Accordion";
+import LoadingOverlay from "@/components/LoadingOverlay";
 import axios from "axios";
 import Head from "next/head";
 
@@ -21,6 +22,16 @@ export default function Home() {
     option: "",
   });
   const [songList, setSongList] = useState<SongType[]>([]);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleButtonClick = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  };
+
   const generateList = async () => {
     const data = await axios.get(
       `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
@@ -106,6 +117,10 @@ export default function Home() {
           >
             Generate Program !
           </button>
+        </div>
+        <div>
+          <button onClick={handleButtonClick}>ボタン</button>
+          <LoadingOverlay loading={loading} src="/study_night_girl.png" />
         </div>
         {songList &&
           songList.map((song, index) => (
