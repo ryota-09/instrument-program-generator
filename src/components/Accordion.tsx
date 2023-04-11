@@ -21,8 +21,10 @@ const Accordion: FC<Props> = ({ title, author, isCasual }) => {
   const handleAccordionClick = async (keyWord: string) => {
     setIsOpen(!isOpen);
     try {
-      const targetId = await fetchVideo(keyWord);
-      setTargetVideoId(targetId);
+      if (!isOpen) {
+        const targetId = await fetchVideo(keyWord);
+        setTargetVideoId(targetId);
+      }
     } catch {
       setTargetVideoId("vWfTe5MHOIk");
     }
