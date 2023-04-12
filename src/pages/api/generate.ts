@@ -31,6 +31,21 @@ export default async function handler(req: NextApiRequest) {
   //     },
   //   }
   // );
+  const apiUrl = `https://api-free.deepl.com/v2/translate`;
+  const params = new URLSearchParams({
+    auth_key: process.env.NEXT_PUBLIC_DEEPL_KEY ?? "",
+    text: optionText ?? "",
+    target_lang: "en",
+  });
+
+  const deepLresponse = await fetch(`${apiUrl}?${params.toString()}`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+    body: JSON.stringify({ text: optionText, target_lang: "en" }),
+  });
+  const deepLdata = await deepLresponse.json();
   // console.log(data.data.translations[0].text);
   // const configuration = new Configuration({
   //   apiKey: process.env.NEXT_PUBLIC_CHARGPT_KEY,
@@ -46,13 +61,12 @@ export default async function handler(req: NextApiRequest) {
   //     },
   //   ],
   // });
-
   const payload = {
     model: "text-davinci-003",
     prompt: `Think of 10 ${searchParams.get(
       "instrument"
     )} programs, 5 classic and 5 casual Japanese, total 10 songs. ${
-      hasOption ? optionText : ""
+      hasOption ? deepLdata.translations[0].text : ""
     } The title of the song is the tilt key, the author of the song is the author key, whether the song is casual or not is in boolean format with the key name of isCasual, top level key is songList and finally the 10 song objects are arranged in json format.`,
     temperature: 0.7,
     top_p: 1,
