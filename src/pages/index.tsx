@@ -16,6 +16,16 @@ type RequestData = {
   option: string;
 };
 
+const normalize = (content: string) => {
+  return content
+    .trim()
+    .replaceAll(/ /g, "")
+    .replaceAll(/\s/g, "")
+    .replaceAll("`", "")
+    .replaceAll("\n\n", "")
+    .replaceAll("\n", "");
+};
+
 export default function Home() {
   const [requestData, setRequestData] = useState<RequestData>({
     instrument: "flute",
@@ -42,6 +52,7 @@ export default function Home() {
         const data = await axios.get(
           `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
         );
+        console.log(data.data);
         setSongList([...data.data.songList]);
       } catch {
         setError(true);
