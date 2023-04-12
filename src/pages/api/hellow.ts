@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest) {
     chatgpt: process.env.NEXT_PUBLIC_CHARGPT_KEY,
   };
 
-  return new Response(`${dummy}`, {
+  return new Response(JSON.stringify(dummy), {
     status: 200,
     headers: {
       "content-type": "application/json",
