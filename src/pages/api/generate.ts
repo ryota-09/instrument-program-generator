@@ -72,6 +72,7 @@ export default async function handler(req: NextApiRequest) {
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
+    stream: true,
     max_tokens: 400,
   };
 
