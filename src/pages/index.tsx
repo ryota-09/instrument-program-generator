@@ -35,16 +35,14 @@ export default function Home() {
       const data = await axios.get(
         `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
       );
-      const object = JSON.parse(data.data);
-      setSongList([...object.songList]);
+      setSongList([...data.data.songList]);
     } catch {
       try {
-        console.log("エラーが発生し、もう一度フェッチ")
+        console.log("エラーが発生し、もう一度フェッチ");
         const data = await axios.get(
           `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
         );
-        const object = JSON.parse(data.data);
-        setSongList([...object.songList]);
+        setSongList([...data.data.songList]);
       } catch {
         setError(true);
       }
