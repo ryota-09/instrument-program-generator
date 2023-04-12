@@ -27,7 +27,6 @@ export default async function handler(req: NextApiRequest) {
     text: optionText ?? "",
     target_lang: "en",
   });
-
   const deepLresponse = await fetch(`${apiUrl}?${params.toString()}`, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -51,6 +50,7 @@ export default async function handler(req: NextApiRequest) {
   //     },
   //   ],
   // });
+  console.log("deepL: ", deepLdata.translations[0].text);
   const payload = {
     model: "text-davinci-003",
     prompt: `Think of 10 ${searchParams.get(
