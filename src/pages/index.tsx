@@ -50,7 +50,7 @@ export default function Home() {
       try {
         console.log("エラーが発生し、もう一度フェッチ");
         const data = await axios.get(
-          `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
+          `/api/generate?instrument=${requestData.instrument}`
         );
         console.log(data.data);
         setSongList([...data.data.songList]);
