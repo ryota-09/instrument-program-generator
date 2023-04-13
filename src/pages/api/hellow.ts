@@ -5,12 +5,22 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest) {
-  const dummy = {
-    deepl: process.env.NEXT_PUBLIC_DEEPL_KEY,
-    chatgpt: process.env.NEXT_PUBLIC_CHARGPT_KEY,
-  };
+  const apiUrl = `https://api-free.deepl.com/v2/translate`;
+  const params = new URLSearchParams({
+    auth_key: process.env.NEXT_PUBLIC_DEEPL_KEY ?? "",
+    text: "りんご",
+    target_lang: "en",
+  });
+  const deepLresponse = await fetch(`${apiUrl}?${params.toString()}`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+    body: JSON.stringify({ text: "りんご", target_lang: "en" }),
+  });
+  const deepLdata = await deepLresponse.json();
 
-  return new Response(JSON.stringify(dummy), {
+  return new Response(JSON.stringify(deepLdata.translations[0].text), {
     status: 200,
     headers: {
       "content-type": "application/json",
