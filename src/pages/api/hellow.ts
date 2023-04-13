@@ -16,6 +16,7 @@ export default async function handler(req: NextApiRequest) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     method: "POST",
+    mode: "cors",
     body: JSON.stringify({ text: "りんご", target_lang: "en" }),
   });
   const deepLdata = await deepLresponse.json();
