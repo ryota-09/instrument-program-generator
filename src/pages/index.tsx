@@ -26,6 +26,25 @@ const normalize = (content: string) => {
     .replaceAll("\n", "");
 };
 
+const fetchDeepLData = async (targetText: string) => {
+  const apiUrl = `https://api-free.deepl.com/v2/translate`;
+  const params = new URLSearchParams({
+    auth_key: process.env.NEXT_PUBLIC_DEEPL_KEY ?? "",
+    text: targetText,
+    target_lang: "en",
+  });
+  const deepLresponse = await fetch(`${apiUrl}?${params.toString()}`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+  const deepLdata = await deepLresponse.json();
+  console.log(JSON.stringify(deepLdata));
+  return deepLdata.translations[0].text;
+};
+
 export default function Home() {
   const [requestData, setRequestData] = useState<RequestData>({
     instrument: "flute",
@@ -41,16 +60,17 @@ export default function Home() {
     setSongList([]);
     setLoading(true);
     setError(false);
+    const targetText = await fetchDeepLData(requestData.option);
     try {
       const data = await axios.get(
-        `/api/generate?option=${requestData.option}&instrument=${requestData.instrument}`
+        `/api/generate?option=${targetText}&instrument=${requestData.instrument}`
       );
       setSongList([...data.data.songList]);
     } catch {
       try {
         console.log("エラーが発生し、もう一度フェッチ");
         const data = await axios.get(
-          `/api/generate?instrument=${requestData.instrument}`
+          `/api/generate?option=${targetText}&instrument=${requestData.instrument}`
         );
         console.log(data.data);
         setSongList([...data.data.songList]);
