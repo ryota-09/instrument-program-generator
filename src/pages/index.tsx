@@ -96,25 +96,25 @@ export default function Home() {
           content="AIがプログラムのテンプレートを作成します。"
         />
       </Head>
-      <header className="bg-blue-500 text-white py-4 px-6">
+      <header className="mx-auto max-w-[400px] bg-blue-500 text-white py-4 px-6">
         <h1 className="text-lg font-bold">Program Generator ♪</h1>
       </header>
-      <main className="py-6 px-4 min-h-screen">
+      <main className="py-6 px-4 mx-auto max-w-[400px] min-h-screen">
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Instrument
         </label>
         <div className="w-full max-w-md mx-auto flex justify-center gap-4">
           <button
             onClick={() =>
-              setRequestData({ ...requestData, instrument: "flute" })
+              setRequestData({ ...requestData, instrument: "piano" })
             }
             className={`border-2 border-blue-300 text-gray-500 font-bold py-2 px-4 rounded-full w-16 h-16 flex items-center justify-center shadow-md hover:shadow-lg transition duration-200 ease-in-out ${
-              requestData.instrument === "flute"
+              requestData.instrument === "piano"
                 ? "bg-blue-100 text-black"
                 : "bg-white"
             }`}
           >
-            flute
+            piano
           </button>
           <button
             onClick={() =>
@@ -130,15 +130,15 @@ export default function Home() {
           </button>
           <button
             onClick={() =>
-              setRequestData({ ...requestData, instrument: "piano" })
+              setRequestData({ ...requestData, instrument: "flute" })
             }
             className={`border-2 border-blue-300 text-gray-500 font-bold py-2 px-4 rounded-full w-16 h-16 flex items-center justify-center shadow-md hover:shadow-lg transition duration-200 ease-in-out ${
-              requestData.instrument === "piano"
+              requestData.instrument === "flute"
                 ? "bg-blue-100 text-black"
                 : "bg-white"
             }`}
           >
-            piano
+            flute
           </button>
         </div>
         <div>
@@ -191,7 +191,7 @@ export default function Home() {
           ))}
       </main>
 
-      <footer className="bg-blue-500 text-white py-4 px-6 mt-auto">
+      <footer className="mx-auto max-w-[400px] bg-blue-500 text-white py-4 px-6 mt-auto">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} Created by Ryota.
         </p>
