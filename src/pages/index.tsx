@@ -46,7 +46,7 @@ const fetchDeepLData = async (targetText: string) => {
 
 export default function Home() {
   const [requestData, setRequestData] = useState<RequestData>({
-    instrument: "flute",
+    instrument: "piano",
     option: "",
   });
   const [songList, setSongList] = useState<SongType[]>([]);
