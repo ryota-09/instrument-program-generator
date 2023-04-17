@@ -41,7 +41,6 @@ const fetchDeepLData = async (targetText: string) => {
     body: JSON.stringify(params),
   });
   const deepLdata = await deepLresponse.json();
-  console.log(JSON.stringify(deepLdata));
   return deepLdata.translations[0].text;
 };
 
@@ -68,11 +67,9 @@ export default function Home() {
       setSongList([...data.data.songList]);
     } catch {
       try {
-        console.log("エラーが発生し、もう一度フェッチ");
         const data = await axios.get(
           `/api/generate?option=${targetText}&instrument=${requestData.instrument}`
         );
-        console.log(data.data);
         setSongList([...data.data.songList]);
       } catch {
         setError(true);
