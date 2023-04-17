@@ -6,6 +6,21 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest) {
+  // const body = JSON.stringify({
+  //   text: "りんご",
+  //   target_lang: "en",
+  // });
+
+  // const res = await fetch("https://api-free.deepl.com/v2/translate", {
+  //   method: "POST",
+  //   mode: "cors",
+  //   headers: {
+  //     "Content-Type": "application/x-www-form-urlencoded",
+  //     auth_key: `DeepL-Auth-Key ${process.env.NEXT_PUBLIC_DEEPL_KEY}`,
+  //   },
+  //   body,
+  // });
+
   const apiUrl = `https://api-free.deepl.com/v2/translate`;
   const params = new URLSearchParams({
     auth_key: process.env.NEXT_PUBLIC_DEEPL_KEY ?? "",
@@ -20,6 +35,7 @@ export default async function handler(req: NextApiRequest) {
     mode: "cors",
     body: JSON.stringify(params),
   });
+  console.log("@@@@@", deepLresponse);
   const deepLdata = await deepLresponse.json();
   return new Response(deepLdata.translations[0].text, {
     status: 200,
