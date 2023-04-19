@@ -13,9 +13,11 @@ export default async function handler(req: NextApiRequest) {
     model: "text-davinci-003",
     prompt: `You are ${searchParams.get(
       "instrument"
-    )} player. Think of 10 ${searchParams.get(
+    )} player. Think of 5 classical songs and 5 japanese songs, total 10 ${searchParams.get(
       "instrument"
-    )}  programs, 5 classic and 5 casual Japanese, total 10 songs. When you choose a piece, choose a piece that is meant to be played by just that instrument, not an orchestra or symphony. ${
+    )}  songs for your concert. You can suggest a mix of classical, contemporary, and popular pieces that would be enjoyable for a ${searchParams.get(
+      "instrument"
+    )} concert, not an orchestra or symphony. ${
       hasOption ? decodeURI(optionText ?? "") : ""
     } The title of the song is the tilt key, the author of the song is the author key, whether the song is casual or not is in boolean format with the key name of isCasual, top level key is songList and finally the 10 song objects are arranged in json format.you do not include text contents.only one object.`,
     temperature: 0.7,
